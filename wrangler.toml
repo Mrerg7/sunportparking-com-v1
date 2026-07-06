@@ -3,6 +3,11 @@ compatibility_date = "2026-07-06"
 preview_urls = false
 workers_dev = false
 
+routes = [
+  { pattern = "sunportparking.com", custom_domain = true },
+  { pattern = "www.sunportparking.com", custom_domain = true },
+]
+
 [assets]
 directory = "./dist"
 html_handling = "force-trailing-slash"
