@@ -20,6 +20,11 @@
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   }
 
+  .hero-image {
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+  }
+
   .section-header {
     @apply text-4xl font-bold tracking-tight;
   }

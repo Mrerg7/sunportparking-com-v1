@@ -6,13 +6,18 @@ const heroImage = cfImageUrl(CF_IMAGES.heroImageId);
 
 <header class="hero-bg text-white relative overflow-hidden">
   <div
-    class="absolute inset-0"
+    class="hero-image absolute inset-0"
     style={`background-image: url('${heroImage}'); background-size: cover; background-position: center;`}
     aria-hidden="true"
   ></div>
 
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/35 to-slate-900/10 pointer-events-none"></div>
+
   <div class="relative max-w-screen-xl mx-auto px-6 pt-16 pb-20 md:pt-20 md:pb-24">
-    <div class="max-w-4xl mx-auto text-center">
+    <div
+      class="max-w-4xl mx-auto text-center"
+      style="text-shadow: 0 18px 45px rgba(15, 23, 42, 0.95);"
+    >
       <div class="inline-flex items-center justify-center mb-6">
         <div class="premium-badge flex items-center gap-x-2 shadow-lg shadow-sky-900/30">
           <i class="fa-solid fa-gem text-sm"></i>
@@ -20,7 +25,7 @@ const heroImage = cfImageUrl(CF_IMAGES.heroImageId);
         </div>
       </div>
 
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-none mb-4">
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-tight md:leading-none mb-4">
         sunportparking.com
       </h1>
 
@@ -28,7 +33,7 @@ const heroImage = cfImageUrl(CF_IMAGES.heroImageId);
         is now available for acquisition
       </p>
 
-      <p class="max-w-2xl mx-auto text-lg md:text-xl text-slate-300 mb-10">
+      <p class="max-w-2xl mx-auto text-base md:text-xl text-slate-200 mb-10">
         The definitive premium domain for Albuquerque International Sunport parking. Exact-match
         keywords. Massive passenger volume. High commercial intent.
       </p>
@@ -59,3 +64,27 @@ const heroImage = cfImageUrl(CF_IMAGES.heroImageId);
     </div>
   </div>
 </header>
+
+<script>
+  const heroImageEl = document.querySelector('.hero-image');
+
+  if (heroImageEl && window.innerWidth >= 1024) {
+    let ticking = false;
+
+    const updateParallax = () => {
+      const scrolled = window.scrollY || window.pageYOffset;
+      const offset = Math.min(scrolled * 0.25, 120);
+      heroImageEl.style.transform = `translate3d(0, ${offset * -1}px, 0)`;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>
