@@ -1,0 +1,62 @@
+---
+import { ACQUISITION_MAILTO, cfImageUrl, CF_IMAGES } from '../config/site';
+
+const heroImage = cfImageUrl(CF_IMAGES.heroImageId);
+---
+
+<header class="hero-bg text-white relative overflow-hidden">
+  <div
+    class="absolute inset-0 opacity-20"
+    style={`background-image: url('${heroImage}'); background-size: cover; background-position: center;`}
+    aria-hidden="true"
+  ></div>
+  <div class="absolute inset-0 subtle-grid" aria-hidden="true"></div>
+
+  <div class="relative max-w-screen-xl mx-auto px-6 pt-16 pb-20 md:pt-20 md:pb-24">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-flex items-center justify-center mb-6">
+        <div class="premium-badge flex items-center gap-x-2 shadow-lg shadow-sky-900/30">
+          <i class="fa-solid fa-gem text-sm"></i>
+          <span class="tracking-[1.5px]">PREMIUM EXACT-MATCH DOMAIN</span>
+        </div>
+      </div>
+
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter leading-none mb-4">
+        sunportparking.com
+      </h1>
+
+      <p class="text-2xl md:text-3xl font-semibold tracking-tight text-sky-400 mb-3">
+        is now available for acquisition
+      </p>
+
+      <p class="max-w-2xl mx-auto text-lg md:text-xl text-slate-300 mb-10">
+        The definitive premium domain for Albuquerque International Sunport parking. Exact-match
+        keywords. Massive passenger volume. High commercial intent.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a
+          href={ACQUISITION_MAILTO}
+          class="cta-button group w-full sm:w-auto inline-flex items-center justify-center gap-x-3 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white font-bold text-lg px-10 h-14 rounded-3xl shadow-xl shadow-sky-900/40"
+        >
+          <span>Submit Your Best Offer</span>
+          <i class="fa-solid fa-arrow-right group-active:translate-x-0.5 transition"></i>
+        </a>
+
+        <a
+          href="#market-facts"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-x-2.5 border border-white/30 hover:bg-white/10 active:bg-white/5 text-white font-semibold px-8 h-14 rounded-3xl transition-all text-base"
+        >
+          <span>Explore the Opportunity</span>
+        </a>
+      </div>
+
+      <div class="mt-8 flex justify-center">
+        <div class="inline-flex items-center text-xs text-slate-400 tracking-widest font-medium">
+          <i class="fa-solid fa-lock mr-2"></i>
+          SECURE ESCROW TRANSACTIONS RECOMMENDED
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

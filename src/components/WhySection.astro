@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+
+const valueProps = await Promise.all(
+  (await getCollection('valueProps'))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async (prop) => {
+      const { Content } = await prop.render();
+      return { ...prop.data, Content };
+    }),
+);
+---
+
+<section id="why-valuable" class="max-w-screen-xl mx-auto px-6 pt-16 pb-12">
+  <div class="max-w-2xl mb-10">
+    <div class="uppercase tracking-[2px] text-sky-600 text-xs font-bold mb-2">THE OPPORTUNITY</div>
+    <h2 class="section-header tracking-tighter">
+      Why sunportparking.com is a premium digital asset
+    </h2>
+    <p class="mt-4 text-lg text-slate-600">
+      This is not just a domain. It's the exact phrase travelers type when they need parking at New
+      Mexico's largest airport.
+    </p>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+    {
+      valueProps.map((prop) => (
+        <div class="value-card bg-white border border-slate-200 rounded-3xl p-7 modern-shadow">
+          <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center mb-6">
+            <i class={`fa-solid ${prop.icon} text-3xl`} />
+          </div>
+          <h3 class="font-bold text-xl tracking-tight mb-3">{prop.title}</h3>
+          <p class="text-slate-600 leading-relaxed">
+            <prop.Content />
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</section>

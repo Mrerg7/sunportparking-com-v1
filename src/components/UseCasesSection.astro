@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+
+const useCases = await Promise.all(
+  (await getCollection('useCases'))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async (useCase) => {
+      const { Content } = await useCase.render();
+      return { ...useCase.data, Content };
+    }),
+);
+---
+
+<section id="use-cases" class="max-w-screen-xl mx-auto px-6 py-16">
+  <div class="max-w-2xl mb-9">
+    <div class="uppercase tracking-[2px] text-sky-600 text-xs font-bold mb-2">
+      FLEXIBLE &amp; PROFITABLE
+    </div>
+    <h2 class="section-header tracking-tighter">Built for real business results</h2>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-5">
+    {
+      useCases.map((useCase) => (
+        <div class="border border-slate-200 bg-white rounded-3xl p-7">
+          <div class="flex items-start gap-x-4">
+            <div class="text-3xl mt-0.5 text-sky-500">
+              <i class={`fa-solid ${useCase.icon}`} />
+            </div>
+            <div class="flex-1">
+              <h4 class="font-bold text-xl tracking-tight">{useCase.title}</h4>
+              <p class="mt-2 text-slate-600">
+                <useCase.Content />
+              </p>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
