@@ -8,11 +8,12 @@ export const SITE = {
   locale: 'en_US',
   location: 'Albuquerque, New Mexico',
   publishedDate: '2026-07-06',
+  googleSiteVerification: 'efoeljjNnT5O5LSHipFtIVaL4qrJHw81boMOaWHdCOw',
 } as const;
 
 export const CF_IMAGES = {
   accountHash: '-sPAUAWeA405NiWJ0SNIQA',
-  heroImageId: 'a9ac8cce-d80e-4b63-12e4-733323b42900',
+  heroImageId: '428535d1-331d-41a4-6ed9-c835c453a200',
 } as const;
 
 export function cfImageUrl(imageId: string, variant = 'public'): string {
