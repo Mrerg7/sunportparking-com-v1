@@ -27,3 +27,6 @@ pnpm-debug.log*
 # wrangler
 .wrangler/
 .dev.vars
+
+# firecrawl scratch output
+.firecrawl/
