@@ -1,0 +1,65 @@
+---
+import { ACQUISITION_MAILTO } from '../config/site';
+---
+
+<!-- Sticky mobile conversion bar: appears after hero scroll, dismissible, 48px+ targets -->
+<div
+  id="sticky-cta"
+  class="fixed bottom-0 inset-x-0 z-[80] md:hidden translate-y-full transition-transform duration-300"
+  role="region"
+  aria-label="Quick offer actions"
+>
+  <div class="bg-slate-950/95 backdrop-blur border-t border-white/10 px-4 pt-3 text-white" style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));">
+    <div class="flex items-center gap-3">
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-bold truncate">sunportparking.com</p>
+        <p class="text-[11px] text-emerald-400 font-semibold tracking-wider">AVAILABLE NOW</p>
+      </div>
+      <a
+        href={ACQUISITION_MAILTO}
+        data-track="sticky-offer"
+        class="tap-target flex-1 inline-flex items-center justify-center gap-x-2 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 font-bold rounded-2xl px-4 text-base"
+      >
+        Make an Offer
+      </a>
+      <button
+        type="button"
+        id="sticky-cta-close"
+        class="tap-target w-12 h-12 inline-flex items-center justify-center text-slate-400 hover:text-white"
+        aria-label="Dismiss offer bar"
+      >
+        <i class="fa-solid fa-xmark text-lg" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const bar = document.getElementById('sticky-cta');
+  const closeBtn = document.getElementById('sticky-cta-close');
+  let dismissed = false;
+  try {
+    dismissed = sessionStorage.getItem('sticky-cta-dismissed') === '1';
+  } catch { /* ignore */ }
+
+  function updateBar() {
+    if (!bar || dismissed) return;
+    const pastHero = window.scrollY > Math.min(window.innerHeight * 0.8, 700);
+    const nearAcquire = (() => {
+      const el = document.getElementById('acquire');
+      if (!el) return false;
+      const rect = el.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0;
+    })();
+    bar.classList.toggle('translate-y-full', !(pastHero && !nearAcquire));
+  }
+
+  closeBtn?.addEventListener('click', () => {
+    dismissed = true;
+    bar?.classList.add('translate-y-full');
+    try { sessionStorage.setItem('sticky-cta-dismissed', '1'); } catch { /* ignore */ }
+  });
+
+  window.addEventListener('scroll', updateBar, { passive: true });
+  updateBar();
+</script>

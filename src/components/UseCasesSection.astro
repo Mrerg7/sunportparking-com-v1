@@ -11,7 +11,7 @@ const useCases = await Promise.all(
 );
 ---
 
-<section id="use-cases" class="max-w-screen-xl mx-auto px-6 py-16">
+<section id="use-cases" class="reveal max-w-screen-xl mx-auto px-6 py-16">
   <div class="max-w-2xl mb-9">
     <div class="uppercase tracking-[2px] text-sky-600 text-xs font-bold mb-2">
       FLEXIBLE &amp; PROFITABLE
@@ -28,7 +28,7 @@ const useCases = await Promise.all(
               <i class={`fa-solid ${useCase.icon}`} />
             </div>
             <div class="flex-1">
-              <h4 class="font-bold text-xl tracking-tight">{useCase.title}</h4>
+              <h3 class="font-bold text-xl tracking-tight">{useCase.title}</h3>
               <p class="mt-2 text-slate-600">
                 <useCase.Content />
               </p>

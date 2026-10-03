@@ -3,22 +3,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import StatsBar from '../components/StatsBar.astro';
+import TrustBar from '../components/TrustBar.astro';
 import WhySection from '../components/WhySection.astro';
 import MarketSection from '../components/MarketSection.astro';
 import UseCasesSection from '../components/UseCasesSection.astro';
+import FaqSection from '../components/FaqSection.astro';
 import AcquisitionCTA from '../components/AcquisitionCTA.astro';
+import StickyCta from '../components/StickyCta.astro';
+import ExitIntent from '../components/ExitIntent.astro';
 import Footer from '../components/Footer.astro';
 ---
 
 <BaseLayout>
   <Nav />
-  <main>
+  <main id="main-content">
     <Hero />
     <StatsBar />
+    <TrustBar />
     <WhySection />
     <MarketSection />
     <UseCasesSection />
+    <FaqSection />
     <AcquisitionCTA />
     <Footer />
   </main>
+  <StickyCta />
+  <ExitIntent />
 </BaseLayout>

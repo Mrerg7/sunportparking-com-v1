@@ -38,7 +38,7 @@ const structuredData = {
       description,
       isPartOf: { '@id': `${SITE.url}#website` },
       datePublished: SITE.publishedDate,
-      dateModified: SITE.publishedDate,
+      dateModified: SITE.modifiedDate,
       inLanguage: 'en-US',
     },
     {
@@ -55,6 +55,24 @@ const structuredData = {
       },
     },
     {
+      '@type': 'Product',
+      '@id': `${SITE.url}#product`,
+      name: 'sunportparking.com premium domain name',
+      description,
+      category: 'Premium domain name for sale',
+      brand: { '@type': 'Brand', name: SITE.name },
+      url: SITE.url,
+      image: ogImage,
+      offers: {
+        '@type': 'Offer',
+        url: SITE.url,
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        itemCondition: 'https://schema.org/NewCondition',
+        seller: { '@id': `${SITE.url}#organization` },
+      },
+    },
+    {
       '@type': 'Airport',
       name: 'Albuquerque International Sunport',
       iataCode: 'ABQ',
@@ -65,6 +83,17 @@ const structuredData = {
         addressCountry: 'US',
       },
     },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+        { '@type': 'ListItem', position: 2, name: 'Why Valuable', item: `${SITE.url}#why-valuable` },
+        { '@type': 'ListItem', position: 3, name: 'Market Facts', item: `${SITE.url}#market-facts` },
+        { '@type': 'ListItem', position: 4, name: 'Use Cases', item: `${SITE.url}#use-cases` },
+        { '@type': 'ListItem', position: 5, name: 'FAQ', item: `${SITE.url}#faq` },
+        { '@type': 'ListItem', position: 6, name: 'Acquire', item: `${SITE.url}#acquire` },
+      ],
+    },
   ],
 };
 ---
@@ -73,13 +102,18 @@ const structuredData = {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content={SITE.keywords} />
+    <meta name="author" content={SITE.name} />
+    <meta name="geo.region" content="US-NM" />
+    <meta name="geo.placename" content="Albuquerque" />
     <meta name="robots" content={noindex ? 'noindex' : 'index, follow, max-image-preview:large'} />
     <link rel="canonical" href={canonicalURL} />
+    <meta name="theme-color" content="#0f172a" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />
@@ -106,16 +140,91 @@ const structuredData = {
     />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
     {SITE.googleSiteVerification && (
       <meta name="google-site-verification" content={SITE.googleSiteVerification} />
     )}
+
+    <!-- Performance: early connections for fonts, icons, hero image CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://imagedelivery.net" crossorigin />
+    <link rel="dns-prefetch" href="https://imagedelivery.net" />
+
+    <!-- Non-blocking fonts: display=swap + print-media trick avoids render-blocking @import -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      />
+    </noscript>
+
+    <!-- Non-blocking Font Awesome (icons only; page renders without it) -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      />
+    </noscript>
+
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    {SITE.analyticsToken && (
+      <script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token": "${SITE.analyticsToken}"}`}
+      />
+    )}
   </head>
   <body>
+    <a
+      href="#main-content"
+      class="skip-link sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-slate-900 focus:px-4 focus:py-2 focus:rounded-xl focus:font-semibold"
+    >
+      Skip to main content
+    </a>
     <slot />
+    <script>
+      // Lightweight conversion-event hooks (no third-party requests).
+      // Owner can forward these to any analytics by listening for 'cta-click'.
+      document.addEventListener('click', (event) => {
+        const el = event.target instanceof Element ? event.target.closest('[data-track]') : null;
+        if (!el) return;
+        const name = el.getAttribute('data-track');
+        try {
+          window.dispatchEvent(new CustomEvent('cta-click', { detail: { name } }));
+          const key = 'cta-clicks';
+          const raw = sessionStorage.getItem(key);
+          const counts = raw ? JSON.parse(raw) : {};
+          counts[name] = (counts[name] || 0) + 1;
+          sessionStorage.setItem(key, JSON.stringify(counts));
+        } catch {
+          /* storage unavailable (private mode) — click still works */
+        }
+      });
+    </script>
   </body>
 </html>

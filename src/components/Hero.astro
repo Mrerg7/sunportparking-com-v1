@@ -4,12 +4,19 @@ import { ACQUISITION_MAILTO, cfImageUrl, CF_IMAGES } from '../config/site';
 const heroImage = cfImageUrl(CF_IMAGES.heroImageId);
 ---
 
+<!-- Preload LCP hero image for <2s paint -->
+<link rel="preload" as="image" href={heroImage} fetchpriority="high" />
+
 <header class="hero-bg text-white relative overflow-hidden">
-  <div
-    class="hero-image absolute inset-0"
-    style={`background-image: url('${heroImage}'); background-size: cover; background-position: center;`}
-    aria-hidden="true"
-  ></div>
+  <img
+    src={heroImage}
+    alt="Aerial view of Albuquerque International Sunport airport at sunset"
+    class="hero-image absolute inset-0 h-full w-full object-cover"
+    width="1920"
+    height="1080"
+    fetchpriority="high"
+    decoding="async"
+  />
 
   <div class="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/35 to-slate-900/10 pointer-events-none"></div>
 
@@ -20,7 +27,7 @@ const heroImage = cfImageUrl(CF_IMAGES.heroImageId);
     >
       <div class="inline-flex items-center justify-center mb-6">
         <div class="premium-badge flex items-center gap-x-2 shadow-lg shadow-sky-900/30">
-          <i class="fa-solid fa-gem text-sm"></i>
+          <i class="fa-solid fa-gem text-sm" aria-hidden="true"></i>
           <span class="tracking-[1.5px]">PREMIUM EXACT-MATCH DOMAIN</span>
         </div>
       </div>
@@ -41,40 +48,53 @@ const heroImage = cfImageUrl(CF_IMAGES.heroImageId);
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
         <a
           href={ACQUISITION_MAILTO}
-          class="cta-button group w-full sm:w-auto inline-flex items-center justify-center gap-x-3 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white font-bold text-lg px-10 h-14 rounded-3xl shadow-xl shadow-sky-900/40"
+          data-track="hero-offer"
+          class="cta-button tap-target group w-full sm:w-auto inline-flex items-center justify-center gap-x-3 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white font-bold text-lg px-10 rounded-3xl shadow-xl shadow-sky-900/40"
         >
           <span>Submit Your Best Offer</span>
-          <i class="fa-solid fa-arrow-right group-active:translate-x-0.5 transition"></i>
+          <i class="fa-solid fa-arrow-right group-active:translate-x-0.5 transition" aria-hidden="true"></i>
         </a>
 
         <a
           href="#market-facts"
-          class="w-full sm:w-auto inline-flex items-center justify-center gap-x-2.5 border border-white/30 hover:bg-white/10 active:bg-white/5 text-white font-semibold px-8 h-14 rounded-3xl transition-all text-base"
+          data-track="hero-explore"
+          class="tap-target w-full sm:w-auto inline-flex items-center justify-center gap-x-2.5 border border-white/30 hover:bg-white/10 active:bg-white/5 text-white font-semibold px-8 rounded-3xl transition-all text-base"
         >
           <span>Explore the Opportunity</span>
         </a>
       </div>
 
-      <div class="mt-8 flex justify-center">
-        <div class="inline-flex items-center text-xs text-slate-400 tracking-widest font-medium">
-          <i class="fa-solid fa-lock mr-2"></i>
+      <ul class="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-300 tracking-widest font-medium" aria-label="Transaction trust signals">
+        <li class="inline-flex items-center">
+          <i class="fa-solid fa-lock mr-2" aria-hidden="true"></i>
           SECURE ESCROW TRANSACTIONS RECOMMENDED
-        </div>
-      </div>
+        </li>
+        <li class="inline-flex items-center">
+          <i class="fa-solid fa-shield-halved mr-2" aria-hidden="true"></i>
+          SSL-SECURED INQUIRIES
+        </li>
+        <li class="inline-flex items-center">
+          <i class="fa-solid fa-user-shield mr-2" aria-hidden="true"></i>
+          CONFIDENTIAL · RESPONSE WITHIN 24 HOURS
+        </li>
+      </ul>
     </div>
   </div>
 </header>
 
 <script>
+  // Add .js flag so reveal animations only hide content when JS can restore it.
+  document.documentElement.classList.add('js');
+
   const heroImageEl = document.querySelector('.hero-image');
 
-  if (heroImageEl && window.innerWidth >= 1024) {
+  if (heroImageEl && window.innerWidth >= 1024 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     let ticking = false;
 
     const updateParallax = () => {
       const scrolled = window.scrollY || window.pageYOffset;
       const offset = Math.min(scrolled * 0.25, 120);
-      heroImageEl.style.transform = `translate3d(0, ${offset * -1}px, 0)`;
+      (heroImageEl as HTMLElement).style.transform = `translate3d(0, ${offset * -1}px, 0)`;
       ticking = false;
     };
 
@@ -86,5 +106,24 @@ const heroImage = cfImageUrl(CF_IMAGES.heroImageId);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // Scroll-triggered fade-ins for sections below the fold.
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px' }
+    );
+    revealEls.forEach((el) => observer.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('is-visible'));
   }
 </script>

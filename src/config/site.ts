@@ -1,14 +1,20 @@
 export const SITE = {
   name: 'sunportparking.com',
-  title: 'sunportparking.com — Premium Domain For Sale | Albuquerque Sunport Parking',
+  title: 'sunportparking.com | Premium Domain for Sale | Albuquerque Sunport Parking',
   description:
-    'Own sunportparking.com — the exact-match premium .com domain for Albuquerque International Sunport (ABQ) airport parking. 5.3M+ annual passengers. High commercial intent. Serious offers welcome.',
+    'sunportparking.com is for sale — the exact-match premium .com for Albuquerque International Sunport (ABQ) airport parking. 5.3M+ annual passengers. Submit your best offer via secure escrow.',
+  keywords:
+    'sunportparking.com for sale, buy sunport parking domain, Albuquerque Sunport parking domain, premium domain names, airport parking domain, exact match domain, ABQ parking',
   url: 'https://sunportparking.com/',
   email: 'sales@desertrich.com',
   locale: 'en_US',
   location: 'Albuquerque, New Mexico',
   publishedDate: '2026-07-06',
+  modifiedDate: '2026-10-03',
   googleSiteVerification: 'efoeljjNnT5O5LSHipFtIVaL4qrJHw81boMOaWHdCOw',
+  // Optional: paste a Cloudflare Web Analytics token here to enable analytics.
+  // Leave empty for zero third-party requests (default, fastest + most private).
+  analyticsToken: '',
 } as const;
 
 export const CF_IMAGES = {

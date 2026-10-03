@@ -1,0 +1,79 @@
+---
+import { ACQUISITION_MAILTO, SITE } from '../config/site';
+---
+
+<!-- Exit-intent capture: honest checklist offer, once per session, fully dismissible -->
+<div id="exit-intent" class="hidden fixed inset-0 z-[95] items-center justify-center p-6" role="dialog" aria-modal="true" aria-labelledby="exit-intent-title" aria-hidden="true">
+  <div class="absolute inset-0 bg-slate-950/70" data-exit-close></div>
+  <div class="relative bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 border border-slate-100">
+    <button
+      type="button"
+      class="tap-target absolute top-3 right-3 w-12 h-12 inline-flex items-center justify-center text-slate-400 hover:text-slate-700"
+      data-exit-close
+      aria-label="Close offer dialog"
+    >
+      <i class="fa-solid fa-xmark text-xl" aria-hidden="true"></i>
+    </button>
+    <p class="text-xs font-bold tracking-[2px] text-sky-600 mb-2">BEFORE YOU GO</p>
+    <h2 id="exit-intent-title" class="text-2xl font-extrabold tracking-tight text-slate-900 mb-3">
+      Get the Sunport domain acquisition checklist
+    </h2>
+    <p class="text-slate-600 mb-6">
+      Offer terms to include, escrow steps, and transfer timeline — reply to our inquiry email and
+      we will send it with pricing guidance for <strong>{SITE.name}</strong>.
+    </p>
+    <div class="flex flex-col gap-3">
+      <a
+        href={ACQUISITION_MAILTO}
+        data-track="exit-intent-offer"
+        class="tap-target inline-flex items-center justify-center gap-x-2 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-2xl px-6"
+      >
+        <span>Request Checklist + Pricing</span>
+        <i class="fa-solid fa-envelope text-sm" aria-hidden="true"></i>
+      </a>
+      <button
+        type="button"
+        data-exit-close
+        class="tap-target inline-flex items-center justify-center text-slate-500 hover:text-slate-700 font-medium"
+      >
+        No thanks, continue browsing
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('exit-intent');
+  let shown = false;
+  try {
+    shown = sessionStorage.getItem('exit-intent-shown') === '1';
+  } catch { /* ignore */ }
+
+  function show() {
+    if (shown || !modal) return;
+    shown = true;
+    try { sessionStorage.setItem('exit-intent-shown', '1'); } catch { /* ignore */ }
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function hide() {
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  // Desktop exit intent: mouse leaves viewport top. Mobile/assistive fallback: 60s timer.
+  document.addEventListener('mouseout', (e) => {
+    if (!e.relatedTarget && e.clientY <= 0) show();
+  });
+  window.setTimeout(show, 60000);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') hide();
+  });
+  modal?.querySelectorAll('[data-exit-close]').forEach((el) => {
+    el.addEventListener('click', hide);
+  });
+</script>

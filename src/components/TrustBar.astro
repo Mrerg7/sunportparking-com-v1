@@ -1,0 +1,27 @@
+---
+/* Trust signals row: honest, verifiable badges — no fake counters or reviews. */
+const badges = [
+  { icon: 'fa-shield-halved', title: 'Escrow-protected transfer', text: 'Secure escrow strongly recommended' },
+  { icon: 'fa-lock', title: 'SSL-secured inquiries', text: 'Encrypted HTTPS on every page' },
+  { icon: 'fa-user-shield', title: 'Confidential process', text: 'Serious inquiries · reply within 24h' },
+  { icon: 'fa-certificate', title: 'Exact-match .com', text: 'Geo + service keyword authority' },
+];
+---
+
+<section aria-label="Buyer assurances" class="reveal border-b border-slate-200 bg-white">
+  <div class="max-w-screen-xl mx-auto px-6 py-6">
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {badges.map((badge) => (
+        <li class="flex items-center gap-x-3 rounded-2xl border border-slate-100 bg-slate-50/60 px-4 py-3">
+          <span class="fact-icon flex-shrink-0" aria-hidden="true">
+            <i class={`fa-solid ${badge.icon}`} />
+          </span>
+          <span>
+            <span class="block text-sm font-bold text-slate-900">{badge.title}</span>
+            <span class="block text-xs text-slate-500">{badge.text}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

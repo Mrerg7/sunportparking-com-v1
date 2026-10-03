@@ -1,0 +1,80 @@
+---
+import { ACQUISITION_MAILTO } from '../config/site';
+
+/* Visible copy and structured data must match — keep in sync. */
+const faqs = [
+  {
+    q: 'Why is sunportparking.com a premium domain name?',
+    a: 'It is an exact-match .com combining the branded airport name travelers know ("Sunport") with the exact service they search for ("parking"). Exact-match geo-service .com domains are rare, memorable, instantly credible, and carry strong commercial intent for Albuquerque International Sunport (ABQ) traffic.',
+  },
+  {
+    q: 'How much does sunportparking.com cost?',
+    a: 'Pricing is handled through confidential offers — submit your best offer and include your intended use and budget range. Premium airport geo-domains are typically valued on exact-match search demand, passenger volume (5.3M+ at ABQ in 2025), and comparable travel-vertical sales.',
+  },
+  {
+    q: 'How does the domain transfer work?',
+    a: 'After you agree on terms: 1) open a secure escrow transaction (Escrow.com strongly recommended), 2) fund escrow, 3) the domain is pushed to your registrar account, 4) escrow releases funds once you confirm control. Most transfers complete within days.',
+  },
+  {
+    q: 'What could I build on sunportparking.com?',
+    a: 'The most common models are a parking reservation platform for off-site and long-term lots, a rate-comparison and lead-generation site versus official Sunport garage rates, a shuttle and valet operator hub, or holding it as a strategic digital asset in the travel vertical.',
+  },
+  {
+    q: 'Is this an official Sunport or City of Albuquerque website?',
+    a: 'No. This is a private domain listing for sunportparking.com. It is not affiliated with the Albuquerque International Sunport, the City of Albuquerque, or any parking operator. Passenger figures cited are from publicly available airport reporting.',
+  },
+  {
+    q: 'How do I make an offer?',
+    a: 'Email sales@desertrich.com with your intended use and budget range, or use any "Submit Your Best Offer" button on this page to open a pre-addressed inquiry. All serious inquiries are handled confidentially with a response within 24 hours.',
+  },
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: { '@type': 'Answer', text: faq.a },
+  })),
+};
+---
+
+<section id="faq" class="reveal max-w-screen-xl mx-auto px-6 py-16" aria-labelledby="faq-heading">
+  <div class="max-w-2xl mb-9">
+    <div class="uppercase tracking-[2px] text-sky-600 text-xs font-bold mb-2">
+      QUESTIONS, ANSWERED
+    </div>
+    <h2 id="faq-heading" class="section-header tracking-tighter">
+      Frequently asked questions
+    </h2>
+    <p class="mt-4 text-lg text-slate-600">
+      Valuation, transfer, and use-case essentials for buyers evaluating this premium domain.
+    </p>
+  </div>
+
+  <div class="grid gap-4 max-w-3xl">
+    {faqs.map((faq) => (
+      <details class="group border border-slate-200 bg-white rounded-2xl px-6 py-4 open:shadow-md transition-shadow">
+        <summary class="tap-target flex cursor-pointer items-center justify-between gap-4 font-semibold text-slate-900 list-none">
+          <span>{faq.q}</span>
+          <i class="fa-solid fa-chevron-down text-sky-600 text-sm transition-transform group-open:rotate-180" aria-hidden="true"></i>
+        </summary>
+        <p class="mt-3 text-slate-600 leading-relaxed">{faq.a}</p>
+      </details>
+    ))}
+  </div>
+
+  <div class="mt-8">
+    <a
+      href={ACQUISITION_MAILTO}
+      data-track="faq-offer"
+      class="tap-target inline-flex items-center justify-center gap-x-2 px-8 bg-slate-900 hover:bg-black text-white font-semibold rounded-3xl transition-all"
+    >
+      <span>Ask About This Domain</span>
+      <i class="fa-solid fa-arrow-right text-sm" aria-hidden="true"></i>
+    </a>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+</section>

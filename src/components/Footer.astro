@@ -1,5 +1,19 @@
 ---
 import { ACQUISITION_MAILTO, SITE, DISCLAIMER } from '../config/site';
+
+const sectionLinks = [
+  { href: '#why-valuable', label: 'Why Valuable' },
+  { href: '#market-facts', label: 'Market Facts' },
+  { href: '#use-cases', label: 'Use Cases' },
+  { href: '#faq', label: 'FAQ' },
+  { href: '#acquire', label: 'Make an Offer' },
+];
+
+const authorityLinks = [
+  { href: 'https://www.abqsunport.com/', label: 'ABQ Sunport (official airport site)' },
+  { href: 'https://www.cabq.gov/airport', label: 'City of Albuquerque Aviation' },
+  { href: 'https://www.faa.gov/', label: 'Federal Aviation Administration' },
+];
 ---
 
 <footer class="relative z-10 border-t border-slate-200 bg-slate-950 text-white">
@@ -42,16 +56,18 @@ import { ACQUISITION_MAILTO, SITE, DISCLAIMER } from '../config/site';
           </p>
           <a
             href={`mailto:${SITE.email}`}
+            data-track="footer-email"
             class="block text-2xl sm:text-3xl font-display text-white hover:text-sky-400 transition-colors break-all"
           >
             {SITE.email}
           </a>
           <a
             href={ACQUISITION_MAILTO}
-            class="mt-6 inline-flex w-full items-center justify-center gap-x-3 px-6 py-4 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-extrabold rounded-2xl hover:brightness-110 transition-all"
+            data-track="footer-offer"
+            class="tap-target mt-6 inline-flex w-full items-center justify-center gap-x-3 px-6 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-extrabold rounded-2xl hover:brightness-110 transition-all"
           >
             <span>Inquire About Acquisition</span>
-            <i class="fa-solid fa-arrow-right"></i>
+            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
           </a>
           <p class="mt-4 text-[11px] text-slate-500 text-center tracking-wide">
             Confidential inquiries &bull; Response within 24 hours
@@ -59,6 +75,41 @@ import { ACQUISITION_MAILTO, SITE, DISCLAIMER } from '../config/site';
         </div>
       </div>
     </div>
+
+    <!-- Internal linking + topical authority -->
+    <nav class="grid sm:grid-cols-2 gap-8 mb-10 text-sm" aria-label="Footer">
+      <div>
+        <p class="text-xs uppercase tracking-[2px] text-slate-500 font-bold mb-4">On this page</p>
+        <ul class="space-y-2.5">
+          {sectionLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-slate-300 hover:text-white transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-[2px] text-slate-500 font-bold mb-4">
+          Related aviation resources
+        </p>
+        <ul class="space-y-2.5">
+          {authorityLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener"
+                class="text-slate-300 hover:text-white transition-colors"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
 
     <!-- Disclaimer -->
     <p class="text-xs text-slate-500 leading-relaxed max-w-4xl mb-10">
@@ -69,10 +120,10 @@ import { ACQUISITION_MAILTO, SITE, DISCLAIMER } from '../config/site';
     <div
       class="pt-8 border-t border-white/10 text-xs text-slate-500 flex flex-col md:flex-row gap-y-4 items-center justify-between"
     >
-      <div>&copy; 2026 sunportparking.com. All rights reserved.</div>
+      <div>&copy; 2026 sunportparking.com. All rights reserved. <a href="/sitemap-index.xml" class="underline hover:text-slate-300">Sitemap</a></div>
       <div class="flex items-center gap-x-5">
         <div class="flex items-center gap-x-1.5">
-          <i class="fa-solid fa-shield-halved"></i>
+          <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
           <span>Escrow Protected</span>
         </div>
         <span>Serious inquiries only</span>
